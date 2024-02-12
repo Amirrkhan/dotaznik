@@ -1,14 +1,10 @@
 <script setup>
-import { ref, watch } from "vue";
-let answerSubmitted = ref(false);
-
+import { ref } from "vue";
+const disableClass = ref("disable");
 const props = defineProps({
   question: Object,
   clickedAnswer: Function,
-});
-
-watch(answerSubmitted, (nextVal, prevVal) => {
-  console.log(nextVal, prevVal);
+  answered: Boolean,
 });
 </script>
 <template>
@@ -20,8 +16,8 @@ watch(answerSubmitted, (nextVal, prevVal) => {
       <ul>
         <li
           v-for="(option, index) in question.options"
-          v-bind="answerSubmitted ? 'disabled' : ''"
-          @click="() => clickedAnswer(index)"
+          @click="$emit('newAnswer', answered === false ? index : null)"
+          :key="index"
         >
           {{ option }}
         </li>

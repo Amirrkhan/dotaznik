@@ -16,12 +16,14 @@ const resultQuizData = reactive({
   timeSpent: 0,
   totalQuestions: 0,
 });
-
-const onQuizEnded = (quizData) => {
+function restartQuiz() {
+  resultQuizData.isQuizEnded = false;
+}
+function onQuizEnded(quizData) {
   resultQuizData.totalPoints = quizData.totalPoints;
   resultQuizData.isQuizEnded = quizData.isQuizEnded;
   resultQuizData.totalQuestions = quizData.totalQuestions;
-};
+}
 </script>
 
 <template>
@@ -45,7 +47,7 @@ const onQuizEnded = (quizData) => {
         :timeSpent="resultQuizData.timeSpent"
         :totalQuestions="resultQuizData.totalQuestions"
       />
-      <Button>Restart</Button>
+      <Button @click="restartQuiz">Restart</Button>
     </div>
   </div>
 </template>

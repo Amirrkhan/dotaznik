@@ -1,20 +1,32 @@
 {
   "questions": [
     {
-      "question": "Which is one of the most popular JavaScript framework?",
-      "options": ["Angular", "React", "Svelte", "Vue"],
-      "correctOption": 1,
+      "question": "Biggest city in the world by population?",
+      "options": ["Prague", "New Yourk", "Tokyo", "Beijing"],
+      "correctOption": 2,
       "points": 10
     },
     {
-      "question": "Which company invented React?",
-      "options": ["Google", "Apple", "Netflix", "Facebook"],
-      "correctOption": 3,
+      "question": "Color of leaves(commonly)",
+      "options": ["Green", "Red", "Brown", "Blue"],
+      "correctOption": 0,
       "points": 10
     },
     {
-      "question": "What's the fundamental building block of React apps?",
-      "options": ["Components", "Blocks", "Elements", "Effects"],
+      "question": "Is sun yellow?",
+      "options": ["Yes", "No", "IDK", "Green"],
+      "correctOption": 0,
+      "points": 10
+    },
+    {
+      "question": "Compared to their body weight, what animal is the strongest ?",
+      "options": ["Dung Beetle", "Elephant", "Ant", "Cow"],
+      "correctOption": 0,
+      "points": 10
+    },
+    {
+      "question": "Which is the only body part that is fully grown from birth?",
+      "options": ["Eyes", "Nose", "Legs", "IDK"],
       "correctOption": 0,
       "points": 10
     }

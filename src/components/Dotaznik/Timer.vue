@@ -10,19 +10,20 @@ const props = defineProps({
 });
 onMounted(() => startTimer());
 
-const startTimer = () => {
+function startTimer() {
   interval.value = setInterval(() => {
     timeElapsed.value++;
   }, 1000);
-};
-
-const stopTimer = () => {
+}
+function stopTimer() {
   console.log("timer is stopped");
   clearInterval(interval.value);
   props.handleTimeSpent(timeElapsed);
-};
+}
 
-onUnmounted(() => stopTimer());
+onUnmounted(function () {
+  stopTimer();
+});
 </script>
 
 <template>

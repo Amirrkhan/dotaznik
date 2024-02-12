@@ -12,30 +12,30 @@ const props = defineProps({
   totalQuestions: Number,
 });
 
-const countCorrectAnswers = () => {
+function countCorrectAnswers() {
   return (
     (props.totalPoints * props.totalQuestions) / (props.totalQuestions * 10)
   );
-};
-const sortByTime = () => {
+}
+function sortByTime() {
   timeArraySorted.value = results.value
     .slice(0, 5)
     .sort((a, b) => a.timeSpent - b.timeSpent);
-};
+}
 
-const sortBySuccessPercent = () => {
+function sortBySuccessPercent() {
   successArraySorted.value = results.value
     .slice(0, 5)
     .sort((a, b) => b.answersByPercent - a.answersByPercent);
-};
+}
 
-const countCorrectAnswersPercent = () => {
+function countCorrectAnswersPercent() {
   return ((props.totalPoints / props.totalQuestions) * 10).toFixed(1);
-};
+}
 
 watch(
   () => props.timeSpent,
-  (nextVal, prevVal) => {
+  () => {
     results.value.push({
       timeSpent: props.timeSpent,
       answersByPercent: countCorrectAnswersPercent(),
@@ -44,8 +44,7 @@ watch(
   }
 );
 
-watch(results.value, (nextVal, prevVal) => {
-  console.log(results.value.length);
+watch(results.value, function () {
   results.value.length >= 4 && sortByTime();
   results.value.length >= 4 && sortBySuccessPercent();
 });
@@ -59,11 +58,10 @@ watch(results.value, (nextVal, prevVal) => {
       Correct answers: {{ countCorrectAnswers() }} out of
       {{ totalQuestions }} questions ({{ countCorrectAnswersPercent() }}%)
     </p>
-    <div>
+    <div v-if="results.length >= 4">
       From Best to Worst time:
       <p v-for="el in timeArraySorted">{{ formatTime(el.timeSpent) }}</p>
-    </div>
-    <div>
+
       From Best Total Percent to Worst:
       <p v-for="el in successArraySorted">{{ el.answersByPercent }}</p>
     </div>
