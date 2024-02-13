@@ -4,21 +4,20 @@ import { reactive, watch } from "vue";
 import Question from "./Question.vue";
 import Button from "../Button/Button.vue";
 
+// for rewritign states after Next Button Clicked
 const initialStates = {
-  disableNext: false,
-  disablePrev: true,
   answered: false,
   answerTemplateText: "Answer is not correct, you got",
   points: 0,
+  answeredOption: null,
 };
 
 const state = reactive({
   counterQuestions: 0,
-  disabledNext: false,
-  disabledPrev: true,
   answered: false,
   answerTemplateText: "Answer is not correct, you got",
   points: 0,
+  answeredOption: null,
   isQuizEnded: false,
   totalPoints: 0,
   timeSpent: 0,
@@ -36,35 +35,16 @@ const questions = await fetch("http://localhost:3000/questions")
   })
   .catch((err) => console.log(err.message));
 
-// disable or enable button, to use Previous and Next buttons
-watch(
-  function () {
-    state.counterQuestions;
-  },
-  function (newCounter) {
-    newCounter === 0 && (state.disabledPrev = true);
-    newCounter > 0 && (state.disabledPrev = false);
-    newCounter === questions.length - 1 && (state.disabledNext = true);
-    newCounter < questions.length - 1 && (state.disabledNext = false);
-  }
-);
-
 // previous and next question button click, you can go to previous and next question, but next question appears only if answered
-function handleButtonClick(buttonType) {
-  if (buttonType === "prev") {
-    state.counterQuestions > 0 &&
-      state.counterQuestions < questions.length &&
-      (state.counterQuestions--, Object.assign(state, initialStates));
-  } else if (buttonType === "next") {
-    state.counterQuestions < questions.length - 1 &&
-      ((state.counterQuestions += 1), Object.assign(state, initialStates));
-  }
+function handleButtonClick() {
+  state.counterQuestions < questions.length - 1 &&
+    ((state.counterQuestions += 1), Object.assign(state, initialStates));
 }
 
 // handle answer that comes from Question component, answer comes in type of number
 function handleAnswer(userAnswer) {
-  console.log(arguments);
   state.answered = true;
+  state.answeredOption = userAnswer;
   questions[state.counterQuestions].correctOption === userAnswer &&
     ((state.answerTemplateText = "Answer is correct, you got"),
     (state.points = questions[state.counterQuestions].points),
@@ -76,39 +56,39 @@ function handleAnswer(userAnswer) {
 </script>
 
 <template>
-  <div class="container">
+  <div class="w-full">
+    <header class="mb-5">
+      <p>{{ state.counterQuestions + 1 }} question of {{ questions.length }}</p>
+    </header>
     <Question
       :question="questions[state.counterQuestions]"
       @newAnswer="handleAnswer"
       :answered="state.answered"
+      :answeredOption="state.answered ? state.answeredOption : null"
     />
     <p v-if="state.answered">
       {{ state.answerTemplateText }} {{ state.points }} points
     </p>
-
-    <Button
-      v-if="state.answered"
-      :disabled="state.disabledPrev"
-      :onClick="() => handleButtonClick('prev')"
-      >Previous
-    </Button>
-    <Button
-      v-if="state.answered && !state.isQuizEnded"
-      :disabled="state.disabledNext"
-      :onClick="() => handleButtonClick('next')"
-    >
-      Next
-    </Button>
-    <Button
-      v-if="state.isQuizEnded"
-      @click="
-        handleQuizEnd({
-          totalPoints: state.totalPoints,
-          totalQuestions: questions.length,
-          isQuizEnded: state.isQuizEnded,
-        })
-      "
-      >Go to results</Button
-    >
+    <div class="mt-7 relative">
+      <Button
+        class="absolute right-0 bg-custom-theme"
+        v-if="state.answered && !state.isQuizEnded"
+        :onClick="() => handleButtonClick('next')"
+      >
+        Next
+      </Button>
+      <Button
+        v-if="state.isQuizEnded"
+        class="absolute right-0 bg-custom-theme"
+        @click="
+          handleQuizEnd({
+            totalPoints: state.totalPoints,
+            totalQuestions: questions.length,
+            isQuizEnded: state.isQuizEnded,
+          })
+        "
+        >Go to results</Button
+      >
+    </div>
   </div>
 </template>

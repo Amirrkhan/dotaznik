@@ -51,19 +51,24 @@ watch(results.value, function () {
 </script>
 
 <template>
-  <div class="container">
+  <div>
     <p>Time spent: {{ formatTime(timeSpent) }}</p>
     {{}}
     <p>
       Correct answers: {{ countCorrectAnswers() }} out of
       {{ totalQuestions }} questions ({{ countCorrectAnswersPercent() }}%)
     </p>
-    <div v-if="results.length >= 4">
-      From Best to Worst time:
-      <p v-for="el in timeArraySorted">{{ formatTime(el.timeSpent) }}</p>
-
-      From Best Total Percent to Worst:
-      <p v-for="el in successArraySorted">{{ el.answersByPercent }}</p>
+    <div v-if="results.length >= 4" class="flex justify-between">
+      <div class="mt-10">
+        <p class="text-lg mb-5">From Best to Worst time:</p>
+        <p v-for="el in timeArraySorted">
+          {{ formatTime(el.timeSpent) }}
+        </p>
+      </div>
+      <div class="mt-10">
+        <p class="text-lg mb-5">From Best Total Percent to Worst:</p>
+        <p v-for="el in successArraySorted">{{ el.answersByPercent }}</p>
+      </div>
     </div>
   </div>
 </template>

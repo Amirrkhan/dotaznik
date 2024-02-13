@@ -1,5 +1,8 @@
 <template>
-  <button @click="onClick" class="Button" :disabled="disabled">
+  <button
+    class="button focus:outline-none hover:scale-110 duration-200 transition ease"
+    @click="onClick"
+  >
     <slot>click me</slot>
   </button>
 </template>

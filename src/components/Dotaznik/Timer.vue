@@ -7,6 +7,7 @@ const timeElapsed = ref(0);
 const interval = ref(undefined);
 const props = defineProps({
   handleTimeSpent: Function,
+  className: String,
 });
 onMounted(() => startTimer());
 
@@ -16,7 +17,6 @@ function startTimer() {
   }, 1000);
 }
 function stopTimer() {
-  console.log("timer is stopped");
   clearInterval(interval.value);
   props.handleTimeSpent(timeElapsed);
 }
@@ -27,5 +27,5 @@ onUnmounted(function () {
 </script>
 
 <template>
-  <div>{{ formatTime(timeElapsed) }}</div>
+  <div :class="className">{{ formatTime(timeElapsed) }}</div>
 </template>

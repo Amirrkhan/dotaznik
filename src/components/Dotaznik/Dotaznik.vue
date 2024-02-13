@@ -27,17 +27,24 @@ function onQuizEnded(quizData) {
 </script>
 
 <template>
-  <div class="container">
+  <div
+    class="bg-custom-darkest p-9 text-custom-light shadow-lg rounded-md w-[50rem] h-full"
+  >
     <div v-if="!resultQuizData.isQuizEnded">
-      <h2 v-if="!isClicked">Let's start Quiz</h2>
+      <h1 v-if="!isClicked" class="text-custom-light">Let's start Quiz</h1>
       <Suspense>
         <Questions v-if="isClicked" :handleQuizEnd="onQuizEnded" />
       </Suspense>
       <Timer
+        class="left-0 w-[10%] text-md rounded-lg bg-custom-theme p-1 mt-10"
         v-if="isClicked"
         :handleTimeSpent="(timeSpent) => (resultQuizData.timeSpent = timeSpent)"
       />
-      <Button v-if="!isClicked" @click="() => (isClicked = !isClicked)">
+      <Button
+        class="mt-28 bg-custom-theme"
+        v-if="!isClicked"
+        @click="() => (isClicked = !isClicked)"
+      >
         Start Quiz
       </Button>
     </div>
@@ -47,7 +54,9 @@ function onQuizEnded(quizData) {
         :timeSpent="resultQuizData.timeSpent"
         :totalQuestions="resultQuizData.totalQuestions"
       />
-      <Button @click="restartQuiz">Restart</Button>
+      <Button @click="restartQuiz" class="bg-custom-theme mt-10"
+        >Restart</Button
+      >
     </div>
   </div>
 </template>
